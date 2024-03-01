@@ -12,7 +12,7 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             _logger = logger;
         }
         public IActionResult Index()
-        {
+        {  
             return View();
         }
         public IActionResult New(){
@@ -21,12 +21,11 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> New([Bind("Id,GivenName, MiddleName, Surname")] Driver driver){
+        public IActionResult New( Driver driver){
+            if(!ModelState.IsValid){
+                return View(driver);
+            }
             
-            // if(driver != null){
-                
-            // }
-            _logger.LogInformation(ModelState.IsValid.ToString());
             return View();
         }
     }

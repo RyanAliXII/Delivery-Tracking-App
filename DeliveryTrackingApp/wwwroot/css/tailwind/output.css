@@ -1423,6 +1423,19 @@ td {
   --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity));
 }
 
+.form-error {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
+}
+
+:is(.dark .form-error) {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
+}
+
 .form-file-input {
   display: block;
   width: 100%;
