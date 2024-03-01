@@ -16,15 +16,14 @@ public class Driver {
     public string Surname {get; set;} = "";
     [DataType(DataType.Date)]
     [Required(ErrorMessage = "Date of birth is required.")]
-    public DateTime DateOfBirth {get; set;}
+    public DateTime DateOfBirth {get; set;} = DateTime.Now;
     [Required(ErrorMessage = "Gender is required.")]
-    
     public string Gender {get; set;} = "";
     [Required(ErrorMessage = "License ID number is required.")]
     public string LicenseIdNumber {get; set;} = "";
-     [DataType(DataType.Date)]
-     [Required(ErrorMessage = "License validity is required.")]
-    public DateTime LicenseValidity {get; set;}
+    [DataType(DataType.Date)]
+    [Required(ErrorMessage = "License validity is required.")]
+    public DateTime LicenseValidity {get; set;} = DateTime.Now;
 
     // public string LicensePhoto  {get;set;}
     [Required(ErrorMessage = "Email is required.")] 
@@ -33,10 +32,5 @@ public class Driver {
     [Required(ErrorMessage = "Mobile number is required.")]
     public string MobileNumber {get; set;} = "";
 
-    public List<SelectListItem> Genders { get; set;} =
-    [
-            new SelectListItem { Value = "Male", Text = "Male" },
-            new SelectListItem { Value = "Female", Text = "Female" },
-            new SelectListItem { Value = "Other", Text = "Other"  },
-    ];
+
 }
