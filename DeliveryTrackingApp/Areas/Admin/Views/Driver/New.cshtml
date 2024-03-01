@@ -12,27 +12,34 @@
         <div >
             <label asp-for="GivenName" class="form-label">Given name</label>
             <input asp-for="GivenName" type="text" class="form-input"/>
+            <span class="form-error" asp-validation-for="GivenName"></span>
         </div>
         <div >
             <label asp-for="MiddleName" class="form-label">Middle name</label>
             <input asp-for="MiddleName" type="text" class="form-input"/>
+            <span class="form-error" asp-validation-for="MiddleName"></span>
         </div >
         <div >
             <label asp-for="Surname" class="form-label">Surname</label>
             <input asp-for="Surname" type="text" class="form-input"/>
+            <span class="form-error" asp-validation-for="Surname"></span>
         </div>
         <div >
             <label class="form-label" asp-for="DateOfBirth">Date of birth</label>
             <input  asp-for="DateOfBirth" type="date" class="form-input"></input>
+            <span class="form-error" asp-validation-for="DateOfBirth"></span>
         </div>
         <div>
             <label  asp-for="Gender" class="form-label">Gender</label>
-            <select asp-for="Gender" type="date" class="form-select">
+            <select asp-for="Gender"  class="form-select">
                 <option value="" disabled selected>Select a gender</option>
                 <option value="Male">Male</option>
                 <option value="Women">Women</option>
                 <option value="Other">Other</option>
             </select>
+
+            </select>
+            <span class="form-error" asp-validation-for="Gender"></span>
         </div>
         </div>
          <div class="text-gray-900 bg-gray-200 dark:text-white p-2 dark:bg-gray-800 rounded-md flex items-center gap-1 mb-4 mt-4">
@@ -44,10 +51,12 @@
          <div>
             <label class="form-label" asp-for="LicenseIdNumber">ID Number</label>
             <input asp-for="LicenseIdNumber"  type="text" class="form-input"></input>
+            <span class="form-error" asp-validation-for="LicenseIdNumber"></span>
         </div>
          <div>
             <label class="form-label" asp-for="LicenseValidity">Validity</label>
-            <input  asp-for="LicenseValidity" type="date" class="form-file-input"></input>
+            <input  asp-for="LicenseValidity" type="date" class="form-input"></input>
+            <span class="form-error" asp-validation-for="LicenseValidity"></span>
         </div>
         <div>
             <label class="form-label">License photo</label>
@@ -65,10 +74,12 @@
          <div>
             <label class="form-label"  asp-for="Email">Email</label>
             <input asp-for="Email" type="email" class="form-input"></input>
+             <span class="form-error" asp-validation-for="Email"></span>
         </div>
         <div>
             <label class="form-label"  asp-for="MobileNumber">Mobile number</label>
-            <input  asp-for="MobileNumber" type="number" class="form-input"></input>
+            <input asp-for="MobileNumber" type="number" class="form-input"></input>
+             <span class="form-error" asp-validation-for="MobileNumber"></span>
         </div>
         </div>
         <button class="btn-primary mt-5" type="submit">
