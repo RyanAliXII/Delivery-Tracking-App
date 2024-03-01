@@ -2,7 +2,7 @@
 <div class="p-5">
     <h3 class="h4">New Driver</h3>
     <hr class="divider-b mt-4">
-    <form>
+    <form asp-action="New">
         <div class="text-gray-900 bg-gray-200 dark:text-white p-2 dark:bg-gray-800 rounded-md flex items-center gap-1 mb-4">
            <i class="fa-solid fa-address-card"></i>
             <span class="font-semibold font-xs">
@@ -10,24 +10,24 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         <div >
-            <label class="form-label">Given name</label>
-            <input type="text" class="form-input"/>
+            <label asp-for="GivenName" class="form-label">Given name</label>
+            <input asp-for="GivenName" type="text" class="form-input"/>
         </div>
         <div >
-            <label class="form-label">Middle name</label>
-            <input type="text" class="form-input"/>
+            <label asp-for="MiddleName" class="form-label">Middle name</label>
+            <input asp-for="MiddleName" type="text" class="form-input"/>
         </div >
         <div >
-            <label class="form-label">Surname</label>
-            <input type="text" class="form-input"/>
+            <label asp-for="Surname" class="form-label">Surname</label>
+            <input asp-for="Surname" type="text" class="form-input"/>
         </div>
         <div >
-            <label class="form-label">Date of birth</label>
-            <input type="date" class="form-input"></input>
+            <label class="form-label" asp-for="DateOfBirth">Date of birth</label>
+            <input  asp-for="DateOfBirth" type="date" class="form-input"></input>
         </div>
         <div>
-            <label class="form-label">Gender</label>
-            <select type="date" class="form-select">
+            <label  asp-for="Gender" class="form-label">Gender</label>
+            <select asp-for="Gender" type="date" class="form-select">
                 <option value="" disabled selected>Select a gender</option>
                 <option value="Male">Male</option>
                 <option value="Women">Women</option>
@@ -42,12 +42,12 @@
         </div>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-2">
          <div>
-            <label class="form-label">ID Number</label>
-            <input type="email" class="form-input"></input>
+            <label class="form-label" asp-for="LicenseIdNumber">ID Number</label>
+            <input asp-for="LicenseIdNumber"  type="text" class="form-input"></input>
         </div>
          <div>
-            <label class="form-label">Validity</label>
-            <input type="date" class="form-file-input"></input>
+            <label class="form-label" asp-for="LicenseValidity">Validity</label>
+            <input  asp-for="LicenseValidity" type="date" class="form-file-input"></input>
         </div>
         <div>
             <label class="form-label">License photo</label>
@@ -63,12 +63,12 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-2">
          <div>
-            <label class="form-label">Email</label>
-            <input type="email" class="form-input"></input>
+            <label class="form-label"  asp-for="Email">Email</label>
+            <input asp-for="Email" type="email" class="form-input"></input>
         </div>
         <div>
-            <label class="form-label">Contact number</label>
-            <input type="number" class="form-input"></input>
+            <label class="form-label"  asp-for="MobileNumber">Mobile number</label>
+            <input  asp-for="MobileNumber" type="number" class="form-input"></input>
         </div>
         </div>
         <button class="btn-primary mt-5" type="submit">
