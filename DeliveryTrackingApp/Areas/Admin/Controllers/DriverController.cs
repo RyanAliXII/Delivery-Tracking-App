@@ -1,3 +1,4 @@
+using DeliveryTrackingApp.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeliveryTrackingApp.Areas.Admin.Controllers
@@ -13,6 +14,5 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
         public IActionResult New(){
             return View();
         }
-
     }
 }
