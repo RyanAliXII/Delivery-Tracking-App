@@ -12,15 +12,19 @@ if (
   themeToggleDarkIcon.classList.remove("hidden");
 }
 
+//check color theme and apply on load
+if (localStorage.getItem("color-theme") === "dark") {
+  document.documentElement.classList.add("dark");
+} else {
+  document.documentElement.classList.remove("dark");
+}
+
 const themeToggleBtn = document.getElementById("theme-toggle");
-
-let event = new Event("dark-mode");
-
 themeToggleBtn.addEventListener("click", function () {
   // toggle icons
   themeToggleDarkIcon.classList.toggle("hidden");
   themeToggleLightIcon.classList.toggle("hidden");
-
+  let event = new Event("dark-mode");
   // if set via local storage previously
   if (localStorage.getItem("color-theme")) {
     if (localStorage.getItem("color-theme") === "light") {
