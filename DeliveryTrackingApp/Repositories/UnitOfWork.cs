@@ -7,10 +7,11 @@ public class UnitOfWork(DefaultDbContext dbContext) : IUnitOfWork {
     public IDriverRepository DriverRepository { get; private set; } = new DriverRepository(dbContext);
 
     public void Save(){
-            _dbContext.SaveChanges();
+        _dbContext.SaveChanges();
     }
 }
 
 public interface IUnitOfWork {
     public IDriverRepository DriverRepository {get;}
+    public void Save();
 }

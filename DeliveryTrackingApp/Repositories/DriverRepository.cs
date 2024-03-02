@@ -10,14 +10,13 @@ class DriverRepository: IDriverRepository {
         _dbContext = dbContext;
     }
     public List<Driver> GetAll(){
-        
-        return [];
+         return _dbContext.Driver.ToList();
     }
     public Driver GetById(Guid id){
         return new Driver();
     }
     public void Add(Driver driver){
-
+        _dbContext.Driver.Add(driver);
     }
     public void Update(Driver driver){
 

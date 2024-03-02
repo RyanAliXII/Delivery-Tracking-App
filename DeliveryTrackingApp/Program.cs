@@ -39,6 +39,6 @@ app.MapControllerRoute(
 
 app.Run();
 
-void initUnitOfWork(IServiceCollection services){
+static void initUnitOfWork(IServiceCollection services){
     services.AddScoped<IUnitOfWork, UnitOfWork>();
 }

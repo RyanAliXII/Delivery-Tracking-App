@@ -14,8 +14,8 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
-        {  
-            return View();
+        {  var drivers = _unitOfWork.DriverRepository.GetAll();
+           return View(drivers);
         }
         public IActionResult New(){
             return View();
@@ -27,7 +27,14 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             if(!ModelState.IsValid){
                 return View(driver);
             }
-            return View();
+            try{
+                _unitOfWork.DriverRepository.Add(driver);
+                _unitOfWork.Save();
+            }catch(Exception e){
+                _logger.LogError(e.Message);
+                return View(driver);
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
