@@ -25,11 +25,10 @@ public class Driver {
     [Required(ErrorMessage = "License validity is required.")]
     public DateTime LicenseValidity {get; set;} = DateTime.Now;
 
-    // public string LicensePhoto  {get;set;}
-    [Required(ErrorMessage = "Email is required.")] 
-    
-    public string Email {get; set;} = "";
+    public string LicenseImagePath  {get;set;} = "";
+    public string Address {get;set;} = "";
+   
     [Required(ErrorMessage = "Mobile number is required.")]
     public string MobileNumber {get; set;} = "";
-
+    public Account Account {get;set;} = new Account();
 }
