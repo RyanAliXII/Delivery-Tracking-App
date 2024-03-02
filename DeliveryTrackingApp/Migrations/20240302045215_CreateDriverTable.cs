@@ -17,8 +17,10 @@ namespace DeliveryTrackingApp.Migrations
                 Surname = table.Column<string>(type:"NVARCHAR(50)", nullable:false),
                 DateOfBirth = table.Column<DateTime>(type:"DATE", nullable: false),
                 Gender = table.Column<string>(type: "NVARCHAR(50)", nullable: false),
+                Address = table.Column<string>(type: "TEXT", nullable:false),
                 LicenseIdNumber = table.Column<string>(type:"NVARCHAR(50)", nullable:false),
-                LicenseValidity = table.Column<DateTime>(type: "DATE", nullable: true),
+                LicenseValidity = table.Column<DateTime>(type: "DATE", nullable: false),
+                LicenseImagePath = table.Column<string>(type:"NVARCHAR(100)", nullable: false),
                 Email = table.Column<string>(type: "NVARCHAR(50)", nullable: false ),
                 MobileNumber = table.Column<string>(type: "NVARCHAR(50)", nullable: false)
             }, constraints : table => {
