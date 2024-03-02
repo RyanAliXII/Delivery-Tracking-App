@@ -9,4 +9,5 @@ public class DefaultDbContext : DbContext {
 
     }
     public DbSet<Driver> Driver  { get; set; }
+    public DbSet<Account> Account {get; set;}
 }
