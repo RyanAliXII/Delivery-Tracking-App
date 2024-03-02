@@ -30,5 +30,7 @@ public class Driver {
    
     [Required(ErrorMessage = "Mobile number is required.")]
     public string MobileNumber {get; set;} = "";
-    public Account Account {get;set;} = new Account();
+    
+    [ForeignKey("AccountId")]
+    public virtual Account Account {get;set;} = new Account();
 }

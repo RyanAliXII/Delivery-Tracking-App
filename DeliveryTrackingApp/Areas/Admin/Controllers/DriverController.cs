@@ -14,7 +14,7 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
-        {  var drivers = _unitOfWork.DriverRepository.GetAll();
+        {  var drivers = _unitOfWork.DriverRepository.GetAllDrivers();
            return View(drivers);
         }
         public IActionResult New(){

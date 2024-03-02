@@ -1,8 +1,10 @@
 
 
 using DeliveryTrackingApp.Areas.Admin.Models;
+using DeliveryTrackingApp.Areas.Admin.ViewModels;
 using DeliveryTrackingApp.Data;
 using DeliveryTrackingApp.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 class DriverRepository: IDriverRepository {
     private readonly DefaultDbContext _dbContext;
@@ -26,8 +28,11 @@ class DriverRepository: IDriverRepository {
     public void Delete(Driver driver){
         
     }
+    public List<DriverViewModel> GetAllDrivers(){
+        return _dbContext.Driver.Include(d => d.Account).Select(d => new DriverViewModel(d)).ToList();
+    }
 }
 
 public interface IDriverRepository: IRepository<Driver>{
-
+    public List<DriverViewModel> GetAllDrivers();
 }

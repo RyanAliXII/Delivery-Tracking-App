@@ -1,8 +1,7 @@
-@model List<DeliveryTrackingApp.Areas.Admin.Models.Driver>;
+@model List<DeliveryTrackingApp.Areas.Admin.ViewModels.DriverViewModel>;
 @{
     ViewData["Title"] = "Drivers";
 }
-
 <div class="p-5">
     <div class="table-container">
     <table>
@@ -11,16 +10,18 @@
                 <th>Given Name</th>
                 <th>Surname</th>
                 <th>Contact No.</th>
+                <th>Email</th>
             </tr>
         </thead>
         <tbody>
-            @foreach(var driver  in Model){
+            @foreach(var driver in Model){
                 <tr>
                     <td>
                        @driver.GivenName
                     </td>
                     <td>@driver.Surname</td>    
                     <td>@driver.MobileNumber</td>
+                    <td>@driver.Email</td>
                 </tr>
             }
         </tbody>
