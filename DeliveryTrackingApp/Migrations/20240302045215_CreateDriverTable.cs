@@ -22,9 +22,13 @@ namespace DeliveryTrackingApp.Migrations
                 LicenseValidity = table.Column<DateTime>(type: "DATE", nullable: false),
                 LicenseImagePath = table.Column<string>(type:"NVARCHAR(100)", nullable: false),
                 Email = table.Column<string>(type: "NVARCHAR(50)", nullable: false ),
-                MobileNumber = table.Column<string>(type: "NVARCHAR(50)", nullable: false)
+                MobileNumber = table.Column<string>(type: "NVARCHAR(50)", nullable: false),
+                CreatedAt = table.Column<DateTime>(type: "DATETIME", defaultValueSql: "GETDATE()"),
+                DeletedAt = table.Column<DateTime>(type: "DATETIME", nullable: true)
             }, constraints : table => {
                 table.PrimaryKey("PK_Driver", row=> row.Id);
+                table.UniqueConstraint("UNIQUE_Driver_MobileNumber", row => row.MobileNumber);
+                table.UniqueConstraint("UNIQUE_Driver_LicenseIdNumber", row => row.LicenseIdNumber);
             });
 
         }

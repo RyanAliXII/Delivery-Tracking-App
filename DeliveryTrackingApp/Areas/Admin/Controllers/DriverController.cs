@@ -29,9 +29,8 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             }
             try{
                 _unitOfWork.DriverRepository.Add(driver);
-                _unitOfWork.Save();
             }catch(Exception e){
-                _logger.LogError(e.Message);
+                _logger.LogError(e.Message + e.StackTrace);
                 return View(driver);
             }
             return RedirectToAction(nameof(Index));

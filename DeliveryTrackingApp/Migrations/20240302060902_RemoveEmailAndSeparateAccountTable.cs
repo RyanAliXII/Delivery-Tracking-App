@@ -16,7 +16,7 @@ namespace DeliveryTrackingApp.Migrations
                 Id = table.Column<Guid>(type:"UNIQUEIDENTIFIER", defaultValueSql: "NEWID()"),
                 Email = table.Column<string>(type: "NVARCHAR(100)", nullable: false ),
                 Password = table.Column<string>(type: "TEXT", nullable: false),
-                CreatedAt = table.Column<DateTime>(type: "TIMESTAMP", defaultValueSql: "CURRENT_TIMESTAMP")
+                CreatedAt = table.Column<DateTime>(type: "DATETIME", defaultValueSql: "GETDATE()")
             },constraints: table=>{
                 table.PrimaryKey("PK_Account", row=> row.Id);
             });
@@ -37,7 +37,7 @@ namespace DeliveryTrackingApp.Migrations
             migrationBuilder.DropForeignKey(name:"FK_Driver_Account_AccountId", table: "Driver");
             migrationBuilder.DropColumn(name:"AccountId", table:"Driver");
             migrationBuilder.DropTable( name: "Account");
-            migrationBuilder.AddColumn<string>(name:"Email", type:"NVARCHAR(50)", nullable: false, table: "Driver");
+            migrationBuilder.AddColumn<string>(name:"Email", type:"NVARCHAR(50)", nullable: true, table: "Driver");
         }
     }
 }
