@@ -2,6 +2,7 @@ using DeliveryTrackingApp.Areas.Admin.Models;
 using DeliveryTrackingApp.Areas.Admin.ViewModels;
 using DeliveryTrackingApp.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Minio;
 namespace DeliveryTrackingApp.Areas.Admin.Controllers
 {   
     [Area("Admin")]
@@ -10,9 +11,11 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
         // GET: DriverController
         private readonly ILogger<DriverController> _logger;
         private readonly IUnitOfWork _unitOfWork;
-        public DriverController (ILogger<DriverController> logger, IUnitOfWork unitOfWork){
+        private readonly IMinioClient _minio;
+        public DriverController (ILogger<DriverController> logger, IUnitOfWork unitOfWork, IMinioClient mc){
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _minio = mc;
         }
         public IActionResult Index()
         {  var drivers = _unitOfWork.DriverRepository.GetAllDrivers();
