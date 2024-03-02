@@ -2,7 +2,7 @@
 <div class="p-5">
     <h3 class="h4">New Driver</h3>
     <hr class="divider-b mt-4">
-    <form asp-action="New">
+    <form asp-action="New" enctype="multipart/form-data">
         <div class="text-gray-900 bg-gray-200 dark:text-white p-2 dark:bg-gray-800 rounded-md flex items-center gap-1 mb-4">
            <i class="fa-solid fa-address-card"></i>
             <span class="font-semibold font-xs">
@@ -59,8 +59,9 @@
             <span class="form-error" asp-validation-for="LicenseValidity"></span>
         </div>
         <div>
-            <label class="form-label">License photo</label>
-            <input type="file" class="form-file-input"></input>
+            <label class="form-label" asp-for="LicenseImage">License photo</label>
+            <input asp-for="LicenseImage" type="file" class="form-file-input"></input>
+            <span class="form-error" asp-validation-for="LicenseImage"></span>
         </div>
        
         </div>

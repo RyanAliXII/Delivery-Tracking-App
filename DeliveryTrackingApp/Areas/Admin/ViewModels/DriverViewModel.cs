@@ -51,6 +51,8 @@ public class NewDriverViewModel {
     [DataType(DataType.Date)]
     [Required(ErrorMessage = "License validity is required.")]
     public DateTime LicenseValidity {get; set;} = DateTime.Now;
+    [Required(ErrorMessage = "License image is required.")]
+    public IFormFile? LicenseImage {get; set;}
     public string LicenseImagePath  {get;set;} = "";
     public string Address {get;set;} = "";
    
