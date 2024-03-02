@@ -1,8 +1,15 @@
+using DeliveryTrackingApp.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//use env variables for configuration
 builder.Configuration.AddEnvironmentVariables();
+//initialize default database connection
+builder.Services.AddDbContext<DefaultDbContext>(options=> options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDb")));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
