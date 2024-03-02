@@ -27,7 +27,6 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             if(!ModelState.IsValid){
                 return View(driver);
             }
-                    
             return View();
         }
     }

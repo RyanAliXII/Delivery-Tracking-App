@@ -13,7 +13,6 @@ builder.Services.AddDbContext<DefaultDbContext>(options=> options.UseSqlServer(b
 //initialize unit of work
 initUnitOfWork(builder.Services);
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -39,8 +38,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
-
 
 void initUnitOfWork(IServiceCollection services){
     services.AddScoped<IUnitOfWork, UnitOfWork>();
