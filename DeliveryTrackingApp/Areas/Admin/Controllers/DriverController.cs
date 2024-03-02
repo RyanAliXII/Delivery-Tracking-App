@@ -1,6 +1,5 @@
 using DeliveryTrackingApp.Areas.Admin.Models;
 using Microsoft.AspNetCore.Mvc;
-
 namespace DeliveryTrackingApp.Areas.Admin.Controllers
 {   
     [Area("Admin")]
@@ -21,7 +20,7 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult New( Driver driver){
+        public IActionResult New(Driver driver){
             if(!ModelState.IsValid){
                 return View(driver);
             }

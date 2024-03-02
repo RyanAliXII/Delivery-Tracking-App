@@ -32,5 +32,4 @@ public class Driver {
     [Required(ErrorMessage = "Mobile number is required.")]
     public string MobileNumber {get; set;} = "";
 
-
 }
