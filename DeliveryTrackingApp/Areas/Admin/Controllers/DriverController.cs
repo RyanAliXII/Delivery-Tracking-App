@@ -1,4 +1,5 @@
 using DeliveryTrackingApp.Areas.Admin.Models;
+using DeliveryTrackingApp.Repositories;
 using Microsoft.AspNetCore.Mvc;
 namespace DeliveryTrackingApp.Areas.Admin.Controllers
 {   
@@ -7,8 +8,10 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
     {
         // GET: DriverController
         private readonly ILogger<DriverController> _logger;
-        public DriverController (ILogger<DriverController> logger){
+        private readonly IUnitOfWork _unitOfWork;
+        public DriverController (ILogger<DriverController> logger, IUnitOfWork unitOfWork){
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {  
@@ -24,7 +27,7 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             if(!ModelState.IsValid){
                 return View(driver);
             }
-            
+                    
             return View();
         }
     }

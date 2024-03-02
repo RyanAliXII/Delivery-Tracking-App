@@ -1,4 +1,5 @@
 using DeliveryTrackingApp.Data;
+using DeliveryTrackingApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,8 @@ builder.Services.AddControllersWithViews();
 builder.Configuration.AddEnvironmentVariables();
 //initialize default database connection
 builder.Services.AddDbContext<DefaultDbContext>(options=> options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDb")));
-
+//initialize unit of work
+initUnitOfWork(builder.Services);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,3 +39,9 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+
+
+void initUnitOfWork(IServiceCollection services){
+    services.AddScoped<IUnitOfWork, UnitOfWork>();
+}
