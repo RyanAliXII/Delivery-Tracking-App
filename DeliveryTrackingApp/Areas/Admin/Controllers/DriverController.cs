@@ -1,4 +1,5 @@
 using DeliveryTrackingApp.Areas.Admin.Models;
+using DeliveryTrackingApp.Areas.Admin.ViewModels;
 using DeliveryTrackingApp.Repositories;
 using Microsoft.AspNetCore.Mvc;
 namespace DeliveryTrackingApp.Areas.Admin.Controllers
@@ -20,15 +21,14 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
         public IActionResult New(){
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult New(Driver driver){
+        public IActionResult New(NewDriverViewModel driver){
             if(!ModelState.IsValid){
                 return View(driver);
             }
             try{
-                _unitOfWork.DriverRepository.Add(driver);
+                _unitOfWork.DriverRepository.Add(new Driver(driver));
             }catch(Exception e){
                 _logger.LogError(e.Message + e.StackTrace);
                 return View(driver);
