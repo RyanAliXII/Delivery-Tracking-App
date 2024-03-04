@@ -1,5 +1,6 @@
 
 
+using System.ComponentModel;
 using DeliveryTrackingApp.Areas.Admin.Models;
 using DeliveryTrackingApp.Areas.Admin.ViewModels;
 using DeliveryTrackingApp.Data;
@@ -31,8 +32,21 @@ class DriverRepository: IDriverRepository {
     public List<DriverViewModel> GetAllDrivers(){
         return _dbContext.Driver.Include(d => d.Account).Select(d => new DriverViewModel(d)).ToList();
     }
+    public bool IsLicenseIdNumberAlreadyRegistered(string idNumber){
+        var d = _dbContext.Driver.Where(d => d.LicenseIdNumber.Equals(idNumber.Trim())).First();
+        return d != null;
+    }
+    public bool IsMobileNumberAlreadyRegistered(string mobileNumber){
+        var d = _dbContext.Driver.Where(d => d.LicenseIdNumber.Equals(mobileNumber.Trim())).First();
+        return d != null;
+    }
+    public bool IsEmailAlreadyRegistered(string email){
+        var d = _dbContext.Driver.Include(d=> d.Account).Where(d => d.Account.Email.Equals(email.Trim())).First();
+        return d != null;
+    }
 }
 
 public interface IDriverRepository: IRepository<Driver>{
     public List<DriverViewModel> GetAllDrivers();
+    public bool IsLicenseIdNumberAlreadyRegistered(string idNumber);
 }
