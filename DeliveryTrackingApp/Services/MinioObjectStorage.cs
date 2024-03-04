@@ -4,6 +4,7 @@ using Minio;
 using Minio.DataModel;
 using Minio.DataModel.Args;
 using Minio.DataModel.Response;
+using Minio.DataModel.Result;
 
 namespace DeliveryTrackingApp.Services;
 class MinioObjectStorage : IMinioObjectStorage{
@@ -29,9 +30,17 @@ class MinioObjectStorage : IMinioObjectStorage{
         putObjectArgs.WithContentType(ContentType);
         return await _minio.PutObjectAsync(putObjectArgs);
     }
+    public async void Delete(string objectName, string ? Bucket = null){
+        var bucket =  Bucket ?? _config.GetSection("Minio").GetValue("DefaultBucket", "");
+        var roa = new RemoveObjectArgs();
+        roa.WithObject(objectName);
+        roa.WithBucket(bucket);
+        await _minio.RemoveObjectAsync(roa);
+    }
     
 }
 
 public interface IMinioObjectStorage {
      public Task<PutObjectResponse> Upload(Stream? File, string ContentType, string? Bucket = null , string Folder = "" );
+     public void Delete(string objectName, string ? Bucket = null);
 }

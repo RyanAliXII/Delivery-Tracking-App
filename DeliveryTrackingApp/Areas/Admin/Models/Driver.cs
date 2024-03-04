@@ -38,4 +38,18 @@ public class Driver {
         MobileNumber = d.MobileNumber;
         Account.Email = d.Account.Email;
     }
+       public Driver (EditDriverViewModel d){
+        Id = d.Id;
+        GivenName = d.GivenName;
+        MiddleName = d.MiddleName;
+        Surname = d.Surname;
+        DateOfBirth = d.DateOfBirth;
+        Gender = d.Gender;
+        LicenseIdNumber = d.LicenseIdNumber;
+        LicenseValidity = d.LicenseValidity;
+        LicenseImagePath = d.LicenseImagePath;
+        Address = d.Address;
+        MobileNumber = d.MobileNumber;
+        Account.Email = d.Account.Email;
+    }
 }

@@ -24,8 +24,10 @@ class DriverRepository: IDriverRepository {
         _dbContext.Account.Add(driver.Account);
         _dbContext.SaveChanges();
     }
+  
     public void Update(Driver driver){
-
+      _dbContext.Driver.Update(driver);
+      _dbContext.SaveChanges();
     }
     public void Delete(Driver driver){
         

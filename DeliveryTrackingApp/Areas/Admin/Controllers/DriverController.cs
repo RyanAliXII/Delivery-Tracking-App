@@ -36,7 +36,7 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
                 return View(driver);
             }
             var contentType = driver.LicenseImage?.ContentType  ?? "";
-            if(contentType != "image/jpeg" && contentType != "image/png"){
+            if(contentType != "image/jpeg" && contentType != "image/png" && contentType != "image/webp"){
                 ModelState.AddModelError("LicenseImage", "File should be jpg or png.");
             }
             try{
@@ -60,14 +60,32 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>Edit(EditDriverViewModel driver, Guid ID){
-           if(ID == Guid.Empty) return BadRequest();
-           var d = _unitOfWork.DriverRepository.GetById(ID);
-           if(d.Id == Guid.Empty) return BadRequest();
-
+        public async Task<IActionResult>Edit(Guid ID, EditDriverViewModel driver){
+           var currentDriverData = _unitOfWork.DriverRepository.GetById(ID);
+           if(currentDriverData.Id == Guid.Empty) return BadRequest();
            if(!ModelState.IsValid){
                 return View(driver);
             }
+            var contentType = driver.LicenseImage?.ContentType  ?? "";
+            if(driver.LicenseImage != null && contentType != "image/jpeg" && contentType != "image/png" && contentType != "image/webp"){
+                ModelState.AddModelError("LicenseImage", "File should be jpg or png.");
+            }
+            _logger.LogInformation(contentType);
+            try{
+                if(driver.LicenseImage != null){
+                    using var stream = driver.LicenseImage.OpenReadStream();
+                    //Upload new image
+                    var uploadResult = await _minio.Upload(File: stream, ContentType: contentType, Folder: "driver-licenses");
+                    driver.LicenseImagePath = uploadResult.ObjectName;
+                    //Delete old image
+                    _minio.Delete(objectName: currentDriverData.LicenseImagePath);
+                }
+                _unitOfWork.DriverRepository.Update(new Driver(driver));
+            }catch(Exception e){
+                _logger.LogError(e.Message + e.StackTrace);
+                return View(driver);
+            }
+            
             return View();
         }
         private void ValidateUniqueFields(NewDriverViewModel d){
