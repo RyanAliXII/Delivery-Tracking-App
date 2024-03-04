@@ -2,6 +2,7 @@ using DeliveryTrackingApp.Areas.Admin.Models;
 using DeliveryTrackingApp.Areas.Admin.ViewModels;
 using DeliveryTrackingApp.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Minio;
 using Minio.DataModel.Args;
 namespace DeliveryTrackingApp.Areas.Admin.Controllers
@@ -13,10 +14,12 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
         private readonly ILogger<DriverController> _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMinioClient _minio;
-        public DriverController (ILogger<DriverController> logger, IUnitOfWork unitOfWork, IMinioClient mc){
+        private IConfiguration _config;
+        public DriverController (ILogger<DriverController> logger, IUnitOfWork unitOfWork, IMinioClient mc, IConfiguration config){
             _logger = logger;
             _unitOfWork = unitOfWork;
             _minio = mc;
+            _config = config;
         }
         public IActionResult Index()
         {  var drivers = _unitOfWork.DriverRepository.GetAllDrivers();
@@ -37,22 +40,28 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
                 ModelState.AddModelError("LicenseImage", "File should be jpg or png.");
             }
             try{
-                using(var stream = driver.LicenseImage?.OpenReadStream() ){
-                    var ext = Path.GetExtension(driver.LicenseImage?.FileName);
+                using(var stream = driver.LicenseImage?.OpenReadStream() ){ 
+                    /*
+                        Get file extension of uploaded file.
+                        The ObjectName will be the fullpath of the file once it is uploaded. 
+                        The last segment of ObjectName will be the filename. 
+                    */
+                    var ext = Path.GetExtension(driver.LicenseImage?.FileName); 
                     var objectName = $"/driver-licenses/{Guid.NewGuid()}{ext}";
+                    
+                    //Configure upload
                     var putObjectArgs = new PutObjectArgs();
-                    _logger.LogInformation(objectName);
-                    _logger.LogInformation(contentType);
-                    putObjectArgs.WithBucket("delivery-app");
+                    var bucket = _config.GetSection("Minio").GetValue<string>("DefaultBucket");
+                    putObjectArgs.WithBucket(bucket);
                     putObjectArgs.WithObject(objectName);
                     putObjectArgs.WithStreamData(stream);
                     putObjectArgs.WithObjectSize(stream?.Length ?? -1);
                     putObjectArgs.WithContentType(contentType);
                     
+                    //Upload image of driver's license
                     var uploadResult = await _minio.PutObjectAsync(putObjectArgs);
                     driver.LicenseImagePath = uploadResult.ObjectName;
                     
-                    _logger.LogInformation(uploadResult.ObjectName);
                 }
                 _unitOfWork.DriverRepository.Add(new Driver(driver));
             }catch(Exception e){
@@ -61,17 +70,18 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-        private void ValidateUniqueFields(NewDriverViewModel driver){
-            var idNumber = driver.LicenseIdNumber.Trim();
-            var email = driver.Account.Email.Trim();
-            var mobileNumber = driver.MobileNumber.Trim();
-            if(_unitOfWork.DriverRepository.IsLicenseIdNumberAlreadyRegistered(driver.LicenseIdNumber)){
-                ModelState.AddModelError("LicenseIdNumber", "License ID number is already registered.");
+        private void ValidateUniqueFields(NewDriverViewModel d){
+            var idNumber = d.LicenseIdNumber?.Trim() ?? "";
+            var email = d.Account?.Email?.Trim() ?? "";
+            var mobileNumber = d.MobileNumber?.Trim() ?? "";
+        
+            if(!idNumber.IsNullOrEmpty() && _unitOfWork.DriverRepository.IsLicenseIdNumberAlreadyRegistered(idNumber)){
+               ModelState.AddModelError("LicenseIdNumber", "License ID number is already registered.");
             }
-            if(_unitOfWork.DriverRepository.IsEmailAlreadyRegistered(driver.Account.Email)){
+            if(!email.IsNullOrEmpty() && _unitOfWork.DriverRepository.IsEmailAlreadyRegistered(email)){
                 ModelState.AddModelError("Account.Email", "Email is already registered.");
             }
-            if(_unitOfWork.DriverRepository.IsMobileNumberAlreadyRegistered(driver.MobileNumber)){
+            if(!email.IsNullOrEmpty() && _unitOfWork.DriverRepository.IsMobileNumberAlreadyRegistered(mobileNumber)){
                 ModelState.AddModelError("MobileNumber", "Mobile number is already registered.");
             }
         }
