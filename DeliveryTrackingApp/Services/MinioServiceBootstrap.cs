@@ -4,7 +4,7 @@ using Minio.DataModel.Args;
 using Newtonsoft.Json;
 namespace DeliveryTrackingApp.Services;
 public static class MinioServiceBootstrap {
-    public async static void Initialize(IMinioClient minio, IConfiguration config){
+    public async static void CreateDefaultBucketAndPolicy(IMinioClient minio, IConfiguration config){
        
        var minioConfig =  config.GetSection("Minio");
        var DefaultBucket = minioConfig.GetValue<string>("DefaultBucket", "");
@@ -47,6 +47,24 @@ public static class MinioServiceBootstrap {
             spa.WithBucket(bucket);
             spa.WithPolicy(jsonPolicy);
             await minio.SetPolicyAsync(spa);
+    }
+    public static IMinioClient BuildDefaultMinioClient(IMinioClient client, IConfiguration config){
+
+        var minioConfig =  config.GetSection("Minio");
+        var minioAccessKey = minioConfig.GetValue<string>("AccessKey", "");
+        var minioSecretKey = minioConfig.GetValue<string>("SecretKey", "");
+        var endpoint = minioConfig.GetValue<string>("Endpoint", "");
+        if(minioAccessKey.IsNullOrEmpty()){
+            throw new Exception("Minio access key is required.");
+        }
+        if(minioSecretKey.IsNullOrEmpty()){
+            throw new Exception("Minio secret key is required.");
+        }
+        if(endpoint.IsNullOrEmpty()){
+            throw new Exception("Minio endpoint is required.");
+        }
+        client.WithCredentials(minioAccessKey, minioSecretKey).WithEndpoint(endpoint).WithSSL(false);
+        return client;
     }
 }
 

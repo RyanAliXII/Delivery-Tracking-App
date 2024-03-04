@@ -2,10 +2,7 @@ using DeliveryTrackingApp.Data;
 using DeliveryTrackingApp.Repositories;
 using DeliveryTrackingApp.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Minio;
-using Minio.DataModel.Args;
-
 
 var builder = WebApplication.CreateBuilder(args);
 //Use json config and env variables for configuration
@@ -15,13 +12,12 @@ builder.Services.AddControllersWithViews();
 //Initialize default database connection
 builder.Services.AddDbContext<DefaultDbContext>(options=> options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultDb")));
 //Initialize minio;
-initMinio(builder.Services, builder.Configuration);
+builder.Services.AddMinio(client  => MinioServiceBootstrap.BuildDefaultMinioClient(client, builder.Configuration));
 //Initialize unit of work
 initUnitOfWork(builder.Services);
 var app = builder.Build();
 //Create bucket and policy
-MinioServiceBootstrap.Initialize(app.Services.GetRequiredService<IMinioClient>(), builder.Configuration);
-
+MinioServiceBootstrap.CreateDefaultBucketAndPolicy(app.Services.GetRequiredService<IMinioClient>(), app.Configuration);
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {       
@@ -50,20 +46,4 @@ app.Run();
 
 static void initUnitOfWork(IServiceCollection services){
     services.AddScoped<IUnitOfWork, UnitOfWork>();
-}
-static void initMinio(IServiceCollection services, ConfigurationManager configuration ){
-    var minioConfig =  configuration.GetSection("Minio");
-    var minioAccessKey = minioConfig.GetValue<string>("AccessKey", "");
-    var minioSecretKey = minioConfig.GetValue<string>("SecretKey", "");
-    var endpoint = minioConfig.GetValue<string>("Endpoint", "");
-    if(minioAccessKey.IsNullOrEmpty()){
-        throw new Exception("Minio access key is required.");
-    }
-    if(minioSecretKey.IsNullOrEmpty()){
-        throw new Exception("Minio secret key is required.");
-    }
-    if(endpoint.IsNullOrEmpty()){
-        throw new Exception("Minio endpoint is required.");
-    }
-    services.AddMinio(client=> client.WithCredentials(minioAccessKey, minioSecretKey).WithEndpoint(endpoint).WithSSL(false));
 }
