@@ -32,7 +32,6 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
                 return View(driver);
             }
             var contentType = driver.LicenseImage?.ContentType;
-          
             if(contentType != "image/jpeg" && contentType != "image/png"){
                 ModelState.AddModelError("LicenseImage", "File should be jpg or png.");
             }

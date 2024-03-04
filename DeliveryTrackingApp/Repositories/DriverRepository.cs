@@ -49,4 +49,7 @@ class DriverRepository: IDriverRepository {
 public interface IDriverRepository: IRepository<Driver>{
     public List<DriverViewModel> GetAllDrivers();
     public bool IsLicenseIdNumberAlreadyRegistered(string idNumber);
+    public bool IsMobileNumberAlreadyRegistered(string mobileNumber);
+    public bool IsEmailAlreadyRegistered(string email);
+
 }
