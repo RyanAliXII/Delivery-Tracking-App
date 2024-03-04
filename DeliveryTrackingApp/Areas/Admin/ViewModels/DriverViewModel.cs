@@ -33,7 +33,7 @@ public class DriverViewModel {
     }
 }
 
-public class MutateDriverViewModel { 
+public class NewDriverViewModel { 
     public Guid Id {get; set;}
     [Required(ErrorMessage = "Given name is required.")]
     public string GivenName {get; set;} = string.Empty;
@@ -62,8 +62,8 @@ public class MutateDriverViewModel {
     [ForeignKey("AccountId")]
     public virtual Account Account {get;set;} = new Account();
     
-    public MutateDriverViewModel (){}
-    public MutateDriverViewModel(Driver d){
+    public NewDriverViewModel (){}
+    public NewDriverViewModel(Driver d){
         Id = d.Id;
         GivenName = d.GivenName;
         MiddleName = d.MiddleName;

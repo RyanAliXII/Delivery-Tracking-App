@@ -3,6 +3,7 @@ using DeliveryTrackingApp.Areas.Admin.ViewModels;
 using DeliveryTrackingApp.Repositories;
 using DeliveryTrackingApp.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Differencing;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DeliveryTrackingApp.Areas.Admin.Controllers
@@ -29,7 +30,7 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
         }   
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> New(MutateDriverViewModel driver){
+        public async Task<IActionResult> New(NewDriverViewModel driver){
             ValidateUniqueFields(driver);
             if(!ModelState.IsValid){
                 return View(driver);
@@ -55,9 +56,14 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
              if (driver.Id == Guid.Empty) {
                 return NotFound();
             }
-            return View(new MutateDriverViewModel(driver));
+            return View(new NewDriverViewModel(driver));
         }
-        private void ValidateUniqueFields(MutateDriverViewModel d){
+        [HttpPut]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult>Edit(NewDriverViewModel driverViewModel){
+            return View();
+        }
+        private void ValidateUniqueFields(NewDriverViewModel d){
             var idNumber = d.LicenseIdNumber?.Trim() ?? "";
             var email = d.Account?.Email?.Trim() ?? "";
             var mobileNumber = d.MobileNumber?.Trim() ?? "";
