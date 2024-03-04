@@ -56,11 +56,11 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
              if (driver.Id == Guid.Empty) {
                 return NotFound();
             }
-            return View(new NewDriverViewModel(driver));
+            return View(new EditDriverViewModel(driver));
         }
         [HttpPut]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>Edit(NewDriverViewModel driverViewModel){
+        public async Task<IActionResult>Edit(EditDriverViewModel driverViewModel){
             return View();
         }
         private void ValidateUniqueFields(NewDriverViewModel d){

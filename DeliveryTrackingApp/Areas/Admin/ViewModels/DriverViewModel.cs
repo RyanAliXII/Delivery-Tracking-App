@@ -79,3 +79,51 @@ public class NewDriverViewModel {
     }
   
 }
+
+
+public class EditDriverViewModel { 
+    public Guid Id {get; set;}
+    [Required(ErrorMessage = "Given name is required.")]
+    public string GivenName {get; set;} = string.Empty;
+    [Required(ErrorMessage = "Middle name is required.")]
+    public string MiddleName {get; set;} = string.Empty;
+    [Required(ErrorMessage = "Surname is required.")]
+    public string Surname {get; set;} = string.Empty;
+    [DataType(DataType.Date)]
+    [Required(ErrorMessage = "Date of birth is required.")]
+    public DateTime DateOfBirth {get; set;} = DateTime.Now;
+    [Required(ErrorMessage = "Gender is required.")]
+    public string Gender {get; set;} = string.Empty;
+    [Required(ErrorMessage = "License ID number is required.")]
+    public string LicenseIdNumber {get; set;} = string.Empty;
+    [DataType(DataType.Date)]
+    [Required(ErrorMessage = "License validity is required.")]
+    public DateTime LicenseValidity {get; set;} = DateTime.Now;
+
+    public IFormFile? LicenseImage {get; set;}
+    public string LicenseImagePath  {get;set;} = string.Empty;
+    public string Address {get;set;} = string.Empty;
+   
+    [Required(ErrorMessage = "Mobile number is required.")]
+    public string MobileNumber {get; set;} = string.Empty;
+    
+    [ForeignKey("AccountId")]
+    public virtual Account Account {get;set;} = new Account();
+    
+    public EditDriverViewModel (){}
+    public EditDriverViewModel(Driver d){
+        Id = d.Id;
+        GivenName = d.GivenName;
+        MiddleName = d.MiddleName;
+        Surname = d.Surname;
+        DateOfBirth = d.DateOfBirth;
+        Gender = d.Gender;
+        LicenseIdNumber = d.LicenseIdNumber;
+        LicenseValidity = d.LicenseValidity;
+        LicenseImagePath = d.LicenseImagePath;
+        Address = d.Address;
+        MobileNumber = d.MobileNumber;
+        Account.Email = d.Account.Email;
+    }
+  
+}
