@@ -17,7 +17,10 @@ class MinioObjectStorage : IMinioObjectStorage{
         return _minio;
     }
     public async Task<PutObjectResponse> Upload(Stream? File, string ContentType, string? Bucket = null , string Folder = "" ){
-        var objectName = Path.Combine(Folder, Guid.NewGuid().ToString()).Replace("\\", "/");
+        var extension = MimeTypes.MimeTypeMap.GetExtension(ContentType);
+        var filename = $"{Guid.NewGuid()}{extension}";
+        var objectName = Path.Combine(Folder, filename).Replace("\\", "/");
+
         var putObjectArgs = new PutObjectArgs();
         var bucket =  Bucket ?? _config.GetSection("Minio").GetValue("DefaultBucket", "");
         putObjectArgs.WithBucket(bucket);
