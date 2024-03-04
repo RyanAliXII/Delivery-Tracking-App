@@ -15,6 +15,7 @@ builder.Services.AddDbContext<DefaultDbContext>(options=> options.UseSqlServer(b
 builder.Services.AddMinio(client  => MinioServiceBootstrap.BuildDefaultMinioClient(client, builder.Configuration));
 //Initialize unit of work
 initUnitOfWork(builder.Services);
+initServices(builder.Services);
 var app = builder.Build();
 //Create bucket and policy
 MinioServiceBootstrap.CreateDefaultBucketAndPolicy(app.Services.GetRequiredService<IMinioClient>(), app.Configuration);
@@ -25,7 +26,6 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -46,4 +46,7 @@ app.Run();
 
 static void initUnitOfWork(IServiceCollection services){
     services.AddScoped<IUnitOfWork, UnitOfWork>();
+}
+static void initServices(IServiceCollection services){
+    services.AddScoped<IMinioObjectStorage, MinioObjectStorage>();
 }

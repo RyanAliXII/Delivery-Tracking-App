@@ -16,14 +16,14 @@ class MinioObjectStorage : IMinioObjectStorage{
     public IMinioClient GetClient(){
         return _minio;
     }
-    public async Task<PutObjectResponse> Upload(Stream File, string ContentType, string? Bucket = null , string Folder = "" ){
-        var objectName = $"{Folder}/{Guid.NewGuid()}";
+    public async Task<PutObjectResponse> Upload(Stream? File, string ContentType, string? Bucket = null , string Folder = "" ){
+        var objectName = Path.Combine(Folder, Guid.NewGuid().ToString()).Replace("\\", "/");
         var putObjectArgs = new PutObjectArgs();
         var bucket =  Bucket ?? _config.GetSection("Minio").GetValue("DefaultBucket", "");
         putObjectArgs.WithBucket(bucket);
         putObjectArgs.WithObject(objectName);
         putObjectArgs.WithStreamData(File);
-        putObjectArgs.WithObjectSize(File.Length);
+        putObjectArgs.WithObjectSize(File?.Length ?? -1);
         putObjectArgs.WithContentType(ContentType);
         return await _minio.PutObjectAsync(putObjectArgs);
     }
@@ -31,5 +31,5 @@ class MinioObjectStorage : IMinioObjectStorage{
 }
 
 public interface IMinioObjectStorage {
-     public Task<PutObjectResponse> Upload(Stream File, string ContentType, string? Bucket = null , string Folder = "" );
+     public Task<PutObjectResponse> Upload(Stream? File, string ContentType, string? Bucket = null , string Folder = "" );
 }

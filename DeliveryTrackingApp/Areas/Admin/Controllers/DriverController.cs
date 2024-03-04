@@ -1,6 +1,7 @@
 using DeliveryTrackingApp.Areas.Admin.Models;
 using DeliveryTrackingApp.Areas.Admin.ViewModels;
 using DeliveryTrackingApp.Repositories;
+using DeliveryTrackingApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Minio;
@@ -12,9 +13,9 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
     {
         private readonly ILogger<DriverController> _logger;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IMinioClient _minio;
+        private readonly IMinioObjectStorage _minio;
         private IConfiguration _config;
-        public DriverController (ILogger<DriverController> logger, IUnitOfWork unitOfWork, IMinioClient mc, IConfiguration config){
+        public DriverController (ILogger<DriverController> logger, IUnitOfWork unitOfWork, IMinioObjectStorage mc, IConfiguration config){
             _logger = logger;
             _unitOfWork = unitOfWork;
             _minio = mc;
@@ -34,33 +35,14 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             if(!ModelState.IsValid){
                 return View(driver);
             }
-            var contentType = driver.LicenseImage?.ContentType;
+            var contentType = driver.LicenseImage?.ContentType  ?? "";
             if(contentType != "image/jpeg" && contentType != "image/png"){
                 ModelState.AddModelError("LicenseImage", "File should be jpg or png.");
             }
             try{
                 using(var stream = driver.LicenseImage?.OpenReadStream() ){ 
-                    /*
-                        Get file extension of uploaded file.
-                        The ObjectName will be the fullpath of the file once it is uploaded. 
-                        The last segment of ObjectName will be the filename. 
-                    */
-                    var ext = Path.GetExtension(driver.LicenseImage?.FileName); 
-                    var objectName = $"/driver-licenses/{Guid.NewGuid()}{ext}";
-                    
-                    //Configure upload
-                    var putObjectArgs = new PutObjectArgs();
-                    var bucket = _config.GetSection("Minio").GetValue<string>("DefaultBucket");
-                    putObjectArgs.WithBucket(bucket);
-                    putObjectArgs.WithObject(objectName);
-                    putObjectArgs.WithStreamData(stream);
-                    putObjectArgs.WithObjectSize(stream?.Length ?? -1);
-                    putObjectArgs.WithContentType(contentType);
-                    
-                    //Upload image of driver's license
-                    var uploadResult = await _minio.PutObjectAsync(putObjectArgs);
-                    driver.LicenseImagePath = uploadResult.ObjectName;
-                    
+                  var uploadResult =  await _minio.Upload(File: stream, ContentType: contentType, Folder: "driver-licenses");
+                   driver.LicenseImagePath = uploadResult.ObjectName;
                 }
                 _unitOfWork.DriverRepository.Add(new Driver(driver));
             }catch(Exception e){
