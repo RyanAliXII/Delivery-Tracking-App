@@ -8,18 +8,18 @@ namespace DeliveryTrackingApp.Areas.Admin.Models;
 
 public class Driver {
     public Guid Id {get; set;}
-    public string GivenName {get; set;} = "";
-    public string MiddleName {get; set;} = "";
-    public string Surname {get; set;} = "";
+    public string GivenName {get; set;} = string.Empty;
+    public string MiddleName {get; set;} = string.Empty;
+    public string Surname {get; set;} = string.Empty;
     [DataType(DataType.Date)]
     public DateTime DateOfBirth {get; set;} = DateTime.Now;
-    public string Gender {get; set;} = "";
-    public string LicenseIdNumber {get; set;} = "";
+    public string Gender {get; set;} = string.Empty;
+    public string LicenseIdNumber {get; set;} = string.Empty;
     [DataType(DataType.Date)]
     public DateTime LicenseValidity {get; set;} = DateTime.Now;
-    public string LicenseImagePath  {get;set;} = "";
-    public string Address {get;set;} = "";
-    public string MobileNumber {get; set;} = "";
+    public string LicenseImagePath  {get;set;} = string.Empty;
+    public string Address {get;set;} = string.Empty;
+    public string MobileNumber {get; set;} = string.Empty;
     [ForeignKey("AccountId")]
     public virtual Account Account {get;set;} = new Account();
 
