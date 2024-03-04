@@ -10,7 +10,6 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
     [Area("Admin")]
     public class DriverController : Controller
     {
-        // GET: DriverController
         private readonly ILogger<DriverController> _logger;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMinioClient _minio;
@@ -30,7 +29,7 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> New(NewDriverViewModel driver){
+        public async Task<IActionResult> New(MutateDriverViewModel driver){
             ValidateUniqueFields(driver);
             if(!ModelState.IsValid){
                 return View(driver);
@@ -70,7 +69,14 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-        private void ValidateUniqueFields(NewDriverViewModel d){
+        public IActionResult Edit(Guid ID){
+             var driver = _unitOfWork.DriverRepository.GetById(ID);
+             if (driver == null) {
+                return NotFound();
+            }
+            return View(new MutateDriverViewModel(driver));
+        }
+        private void ValidateUniqueFields(MutateDriverViewModel d){
             var idNumber = d.LicenseIdNumber?.Trim() ?? "";
             var email = d.Account?.Email?.Trim() ?? "";
             var mobileNumber = d.MobileNumber?.Trim() ?? "";

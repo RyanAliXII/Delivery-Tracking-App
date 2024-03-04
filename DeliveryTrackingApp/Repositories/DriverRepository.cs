@@ -16,7 +16,8 @@ class DriverRepository: IDriverRepository {
          return _dbContext.Driver.ToList();
     }
     public Driver GetById(Guid id){
-        return new Driver();
+        var d = _dbContext.Driver.Where(d => d.Id == id).Include(d=> d.Account).FirstOrDefault();
+        return  d;
     }
     public void Add(Driver driver){
         _dbContext.Driver.Add(driver);
