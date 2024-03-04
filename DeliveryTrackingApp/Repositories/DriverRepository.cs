@@ -33,15 +33,15 @@ class DriverRepository: IDriverRepository {
         return _dbContext.Driver.Include(d => d.Account).Select(d => new DriverViewModel(d)).ToList();
     }
     public bool IsLicenseIdNumberAlreadyRegistered(string idNumber){
-        var d = _dbContext.Driver.Where(d => d.LicenseIdNumber.Equals(idNumber.Trim())).First();
+        var d = _dbContext.Driver.Where(d => d.LicenseIdNumber.Equals(idNumber.Trim())).SingleOrDefault();
         return d != null;
     }
     public bool IsMobileNumberAlreadyRegistered(string mobileNumber){
-        var d = _dbContext.Driver.Where(d => d.LicenseIdNumber.Equals(mobileNumber.Trim())).First();
+        var d = _dbContext.Driver.Where(d => d.MobileNumber.Equals(mobileNumber.Trim())).SingleOrDefault();
         return d != null;
     }
     public bool IsEmailAlreadyRegistered(string email){
-        var d = _dbContext.Driver.Include(d=> d.Account).Where(d => d.Account.Email.Equals(email.Trim())).First();
+        var d = _dbContext.Driver.Include(d=> d.Account).Where(d => d.Account.Email.Equals(email.Trim())).SingleOrDefault();
         return d != null;
     }
 }

@@ -31,6 +31,22 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             if(!ModelState.IsValid){
                 return View(driver);
             }
+            bool hasUniqueFieldErrors = false;
+            if(_unitOfWork.DriverRepository.IsLicenseIdNumberAlreadyRegistered(driver.LicenseIdNumber)){
+                ModelState.AddModelError("LicenseIdNumber", "License ID number is already registered.");
+                hasUniqueFieldErrors = true;
+            }
+            if(_unitOfWork.DriverRepository.IsEmailAlreadyRegistered(driver.Account.Email)){
+                ModelState.AddModelError("Account.Email", "Email is already registered.");
+                hasUniqueFieldErrors = true;
+            }
+            if(_unitOfWork.DriverRepository.IsMobileNumberAlreadyRegistered(driver.MobileNumber)){
+                ModelState.AddModelError("MobileNumber", "Mobile number is already registered.");
+                hasUniqueFieldErrors = true;
+            }
+            if(hasUniqueFieldErrors){
+                return View(driver);
+            }
             var contentType = driver.LicenseImage?.ContentType;
             if(contentType != "image/jpeg" && contentType != "image/png"){
                 ModelState.AddModelError("LicenseImage", "File should be jpg or png.");
