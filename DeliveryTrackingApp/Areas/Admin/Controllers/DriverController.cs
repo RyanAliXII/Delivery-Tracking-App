@@ -58,9 +58,16 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             }
             return View(new EditDriverViewModel(driver));
         }
-        [HttpPut]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>Edit(EditDriverViewModel driverViewModel){
+        public async Task<IActionResult>Edit(EditDriverViewModel driver, Guid ID){
+           if(ID == Guid.Empty) return BadRequest();
+           var d = _unitOfWork.DriverRepository.GetById(ID);
+           if(d.Id == Guid.Empty) return BadRequest();
+
+           if(!ModelState.IsValid){
+                return View(driver);
+            }
             return View();
         }
         private void ValidateUniqueFields(NewDriverViewModel d){
