@@ -71,7 +71,7 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
         }
         public IActionResult Edit(Guid ID){
              var driver = _unitOfWork.DriverRepository.GetById(ID);
-             if (driver == null) {
+             if (driver.Id == Guid.Empty) {
                 return NotFound();
             }
             return View(new MutateDriverViewModel(driver));
