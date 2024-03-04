@@ -25,6 +25,12 @@ public class Driver {
 
     public Driver (){}
     public Driver (NewDriverViewModel d){
+        UpdateFromViewModel(d);
+    }
+    public Driver (EditDriverViewModel d){
+       UpdateFromViewModel(d);
+    }
+    public void UpdateFromViewModel(EditDriverViewModel d){
         Id = d.Id;
         GivenName = d.GivenName;
         MiddleName = d.MiddleName;
@@ -38,7 +44,7 @@ public class Driver {
         MobileNumber = d.MobileNumber;
         Account.Email = d.Account.Email;
     }
-       public Driver (EditDriverViewModel d){
+      public void UpdateFromViewModel(NewDriverViewModel d){
         Id = d.Id;
         GivenName = d.GivenName;
         MiddleName = d.MiddleName;
@@ -52,4 +58,6 @@ public class Driver {
         MobileNumber = d.MobileNumber;
         Account.Email = d.Account.Email;
     }
+
+    
 }

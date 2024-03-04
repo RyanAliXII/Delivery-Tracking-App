@@ -55,5 +55,6 @@ public interface IDriverRepository: IRepository<Driver>{
     public bool IsLicenseIdNumberAlreadyRegistered(string idNumber);
     public bool IsMobileNumberAlreadyRegistered(string mobileNumber);
     public bool IsEmailAlreadyRegistered(string email);
+   
 
 }
