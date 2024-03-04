@@ -4,7 +4,7 @@ using Minio.DataModel.Args;
 using Newtonsoft.Json;
 namespace DeliveryTrackingApp.Services;
 public static class MinioServiceBootstrap {
-    public async static void Initialize(IMinioClient minio, ConfigurationManager config){
+    public async static void Initialize(IMinioClient minio, IConfiguration config){
        
        var minioConfig =  config.GetSection("Minio");
        var DefaultBucket = minioConfig.GetValue<string>("DefaultBucket", "");
