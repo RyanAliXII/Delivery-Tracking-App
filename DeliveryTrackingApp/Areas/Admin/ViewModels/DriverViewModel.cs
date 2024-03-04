@@ -61,7 +61,9 @@ public class MutateDriverViewModel {
     
     [ForeignKey("AccountId")]
     public virtual Account Account {get;set;} = new Account();
-      public MutateDriverViewModel(Driver d){
+    
+    public MutateDriverViewModel (){}
+    public MutateDriverViewModel(Driver d){
         Id = d.Id;
         GivenName = d.GivenName;
         MiddleName = d.MiddleName;

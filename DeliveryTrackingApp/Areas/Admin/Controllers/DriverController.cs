@@ -26,7 +26,7 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
         }
         public IActionResult New(){
             return View();
-        }
+        }   
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> New(MutateDriverViewModel driver){
@@ -71,7 +71,6 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
         }
         public IActionResult Edit(Guid ID){
              var driver = _unitOfWork.DriverRepository.GetById(ID);
-             
              if (driver.Id == Guid.Empty) {
                 return NotFound();
             }

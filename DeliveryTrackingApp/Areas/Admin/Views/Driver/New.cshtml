@@ -2,7 +2,7 @@
 <div class="p-5">
     <h3 class="h4">New Driver</h3>
     <hr class="divider-b mt-4">
-    <form asp-action="New" enctype="multipart/form-data">
+    <form asp-action="New" enctype="multipart/form-data" id="newDriverForm">
         <div class="text-gray-900 bg-gray-200 dark:text-white p-2 dark:bg-gray-800 rounded-md flex items-center gap-1 mb-4">
            <i class="fa-solid fa-address-card"></i>
             <span class="font-semibold font-xs">
@@ -83,11 +83,20 @@
              <span class="form-error" asp-validation-for="MobileNumber"></span>
         </div>
         </div>
-        <button class="btn-primary mt-5" type="submit">
+        <button class="btn-primary mt-5" type="submit" id="submitBtn">
             <div>
                 <i class="fas fa-save"> </i>
                 Save
             </div>
         </button>
     </form>
+    @section Scripts{
+        <script>
+            const newDriverForm = document.querySelector("#newDriverForm");
+            const submitBtn = document.querySelector("#submitBtn");
+            newDriverForm.addEventListener("submit", (event)=>{
+                submitBtn.disabled = true;
+            })
+        </script>
+    }
 </div>
