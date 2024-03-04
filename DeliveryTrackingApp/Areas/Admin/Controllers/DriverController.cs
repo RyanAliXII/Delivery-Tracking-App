@@ -28,23 +28,8 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> New(NewDriverViewModel driver){
+            ValidateUniqueFields(driver);
             if(!ModelState.IsValid){
-                return View(driver);
-            }
-            bool hasUniqueFieldErrors = false;
-            if(_unitOfWork.DriverRepository.IsLicenseIdNumberAlreadyRegistered(driver.LicenseIdNumber)){
-                ModelState.AddModelError("LicenseIdNumber", "License ID number is already registered.");
-                hasUniqueFieldErrors = true;
-            }
-            if(_unitOfWork.DriverRepository.IsEmailAlreadyRegistered(driver.Account.Email)){
-                ModelState.AddModelError("Account.Email", "Email is already registered.");
-                hasUniqueFieldErrors = true;
-            }
-            if(_unitOfWork.DriverRepository.IsMobileNumberAlreadyRegistered(driver.MobileNumber)){
-                ModelState.AddModelError("MobileNumber", "Mobile number is already registered.");
-                hasUniqueFieldErrors = true;
-            }
-            if(hasUniqueFieldErrors){
                 return View(driver);
             }
             var contentType = driver.LicenseImage?.ContentType;
@@ -75,6 +60,20 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
                 return View(driver);
             }
             return RedirectToAction(nameof(Index));
+        }
+        private void ValidateUniqueFields(NewDriverViewModel driver){
+            var idNumber = driver.LicenseIdNumber.Trim();
+            var email = driver.Account.Email.Trim();
+            var mobileNumber = driver.MobileNumber.Trim();
+            if(_unitOfWork.DriverRepository.IsLicenseIdNumberAlreadyRegistered(driver.LicenseIdNumber)){
+                ModelState.AddModelError("LicenseIdNumber", "License ID number is already registered.");
+            }
+            if(_unitOfWork.DriverRepository.IsEmailAlreadyRegistered(driver.Account.Email)){
+                ModelState.AddModelError("Account.Email", "Email is already registered.");
+            }
+            if(_unitOfWork.DriverRepository.IsMobileNumberAlreadyRegistered(driver.MobileNumber)){
+                ModelState.AddModelError("MobileNumber", "Mobile number is already registered.");
+            }
         }
     }
 }
