@@ -4,8 +4,7 @@ using DeliveryTrackingApp.Repositories;
 using DeliveryTrackingApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Minio;
-using Minio.DataModel.Args;
+
 namespace DeliveryTrackingApp.Areas.Admin.Controllers
 {   
     [Area("Admin")]
@@ -42,7 +41,7 @@ namespace DeliveryTrackingApp.Areas.Admin.Controllers
             try{
                 using(var stream = driver.LicenseImage?.OpenReadStream() ){ 
                   var uploadResult =  await _minio.Upload(File: stream, ContentType: contentType, Folder: "driver-licenses");
-                   driver.LicenseImagePath = uploadResult.ObjectName;
+                  driver.LicenseImagePath = uploadResult.ObjectName;
                 }
                 _unitOfWork.DriverRepository.Add(new Driver(driver));
             }catch(Exception e){
