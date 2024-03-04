@@ -33,7 +33,7 @@ public class DriverViewModel {
     }
 }
 
-public class NewDriverViewModel { 
+public class MutateDriverViewModel { 
     public Guid Id {get; set;}
     [Required(ErrorMessage = "Given name is required.")]
     public string GivenName {get; set;} = string.Empty;

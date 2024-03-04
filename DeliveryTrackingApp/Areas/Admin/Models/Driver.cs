@@ -24,7 +24,7 @@ public class Driver {
     public virtual Account Account {get;set;} = new Account();
 
     public Driver (){}
-    public Driver (NewDriverViewModel d){
+    public Driver (MutateDriverViewModel d){
         Id = d.Id;
         GivenName = d.GivenName;
         MiddleName = d.MiddleName;
