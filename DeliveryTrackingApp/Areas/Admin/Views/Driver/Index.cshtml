@@ -11,6 +11,7 @@
                 <th>Surname</th>
                 <th>Contact No.</th>
                 <th>Email</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -22,6 +23,9 @@
                     <td>@driver.Surname</td>    
                     <td>@driver.MobileNumber</td>
                     <td>@driver.Email</td>
+                    <td class="px-6 py-4">
+                        <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" asp-controller="Driver" asp-action="Edit" asp-route-id="@driver.Id">Edit</a>
+                    </td>
                 </tr>
             }
         </tbody>
